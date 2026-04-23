@@ -1,85 +1,118 @@
 import React, { useState } from "react";
-import { Mail, ArrowRight, KeyRound } from "lucide-react";
+import { Mail, ArrowRight, KeyRound, AlertCircle, CheckCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";  
 import API from "../../services/api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();  // ✅ initialize navigate
+  const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = {};
 
     if (!email) {
-      return setError("Please enter your email");
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(email)) {
+      newErrors.email = "Please enter a valid email address";
     }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
     try {
       setLoading(true);
-      setError("");
-
-      // Call backend to send OTP
       await API.post("auth/forgot-password", { email });
-
-      // ✅ Navigate to Reset Password page with email
-      navigate("/reset", { state: { email } });
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/reset", { state: { email } });
+      }, 1500);
     } catch (err) {
-      setError(err.response?.data?.message || "Error sending OTP");
+      setErrors({ general: err.response?.data?.message || "Error sending OTP" });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center py-24 px-4 relative overflow-hidden">
-      {/* Background blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary-100/40 blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-blue-100/40 blur-3xl transform -translate-x-1/3 translate-y-1/3"></div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center py-12 px-4 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-10 z-0">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-amber-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
+      </div>
 
-      <div className="max-w-md w-full z-10">
-        <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100">
+      <div className="max-w-md w-full relative z-10">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-amber-100">
           
           {/* Header */}
-          <div className="px-8 pt-12 pb-8 text-center">
-            <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-600 border border-primary-100">
-              <KeyRound className="w-8 h-8" />
+          <div className="px-8 pt-10 pb-6 text-center bg-gradient-to-b from-amber-50 to-white">
+            <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
+              <KeyRound className="w-8 h-8 text-amber-600" />
             </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-2">Forgot Password</h2>
-            <p className="text-slate-500">Enter your email to receive OTP</p>
+            <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Forgot Password?</h2>
+            <p className="text-gray-600 font-medium">Enter your email to receive a reset code</p>
           </div>
 
           {/* Form */}
           <div className="px-8 pb-8">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-center">
-                {error}
+            {errors.general && (
+              <div className="bg-red-50 text-red-700 px-4 py-3 rounded-xl mb-6 font-medium text-sm flex items-center gap-2 border border-red-200">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                {errors.general}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            {success && (
+              <div className="bg-emerald-50 text-emerald-700 px-4 py-3 rounded-xl mb-6 font-medium text-sm flex items-center gap-2 border border-emerald-200">
+                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                OTP sent! Redirecting...
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               <div>
-                <label className="text-xs font-bold text-slate-500 mb-2 block">Email</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2 ml-1">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
+                  <Mail className="absolute inset-y-0 left-0 w-5 h-5 text-gray-400 pointer-events-none ml-3 my-auto" />
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 py-3.5 rounded-xl border bg-slate-50 focus:ring-2 focus:ring-primary-500"
-                    placeholder="Enter your email"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors({ ...errors, email: '' });
+                    }}
+                    className={`w-full pl-11 pr-4 py-3 rounded-xl border-2 transition-all outline-none font-medium ${
+                      errors.email 
+                        ? 'border-red-300 bg-red-50 focus:ring-2 focus:ring-red-400 focus:border-red-400' 
+                        : 'border-gray-200 bg-gray-50 focus:bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-200'
+                    }`}
+                    placeholder="john@example.com"
                   />
+                  {errors.email && <p className="text-red-600 text-xs mt-1 ml-1">{errors.email}</p>}
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center items-center gap-2 py-4 rounded-xl bg-primary-600 text-white font-bold hover:bg-primary-500"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 mt-6 rounded-xl text-white font-bold tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600"
               >
-                {loading ? "Sending..." : (
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                    Sending OTP...
+                  </>
+                ) : (
                   <>
                     <ArrowRight className="w-5 h-5" /> Send OTP
                   </>
@@ -87,9 +120,9 @@ const ForgotPassword = () => {
               </button>
             </form>
 
-            <div className="mt-6 text-center">
-              <Link to="/login" className="text-sm text-primary-600 font-bold">
-                Back to Login
+            <div className="mt-8 text-center">
+              <Link to="/login" className="text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                ← Back to Login
               </Link>
             </div>
           </div>

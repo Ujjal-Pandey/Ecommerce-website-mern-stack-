@@ -6,6 +6,14 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    shippingAddress: {  // ✅ ADD THIS BLOCK
+      fullName: String,
+      email: String,
+      phone: String,
+      address: String,
+      city: String,
+      postalCode: String,
+    },  
     items: [
       {
         product: {
