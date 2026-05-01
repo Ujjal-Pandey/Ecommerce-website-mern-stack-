@@ -45,21 +45,21 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-               <Store className="w-6 h-6" />
+          <Link to="/" className="flex items-center gap-1.5 md:gap-2 shrink-0 group">
+            <div className="w-9 md:w-10 h-9 md:h-10 bg-gradient-to-r from-primary-600 to-indigo-600 rounded-lg md:rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+               <Store className="w-5 md:w-6 h-5 md:h-6" />
             </div>
-            <span className="text-2xl font-black text-slate-900 tracking-tight">EssentiaMart</span>
+            <span className="text-lg md:text-2xl font-black text-slate-900 tracking-tight">EssentiaMart</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link to="/" className="text-slate-600 font-bold hover:text-primary-600 transition-colors">Home</Link>
-            <Link to="/products" className="text-slate-600 font-bold hover:text-primary-600 transition-colors">Products</Link>
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            <Link to="/" className="text-sm lg:text-base text-slate-600 font-bold hover:text-primary-600 transition-colors">Home</Link>
+            <Link to="/products" className="text-sm lg:text-base text-slate-600 font-bold hover:text-primary-600 transition-colors">Products</Link>
             <Link to="/cart" className="relative text-slate-600 font-bold hover:text-primary-600 transition-colors flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg hover:bg-primary-50">
                <ShoppingCart className="w-5 h-5" />
               {getCartCount() > 0 && (
-                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-black rounded-full min-w-[20px] h-[20px] flex items-center justify-center shadow-sm">
+                <span className="absolute -top-2 -right-2.5 bg-red-500 text-white text-xs font-black rounded-full min-w-[22px] h-[22px] flex items-center justify-center shadow-md">
                   {getCartCount()}
                 </span>
               )}
@@ -67,15 +67,15 @@ const Navbar = () => {
           </div>
 
           {/* Auth Section - Desktop */}
-          <div className="hidden md:flex gap-4 items-center">
+          <div className="hidden md:flex gap-3 lg:gap-4 items-center">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-3 border-r border-slate-200 pr-5">
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                <div className="flex items-center gap-2 lg:gap-3 border-r border-slate-200 pr-3 lg:pr-5">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
                      <UserCircle className="w-5 h-5 text-slate-500"/>
                   </div>
-                  <div className="text-sm">
-                    <p className="text-slate-800 font-bold text-sm tracking-tight">{user?.name || user?.email}</p>
+                  <div className="text-sm hidden lg:block">
+                    <p className="text-slate-800 font-bold text-sm tracking-tight truncate max-w-[120px]">{user?.name || user?.email}</p>
                     {isAdmin && <p className="text-xs text-primary-600 font-black uppercase tracking-wider">Admin</p>}
                   </div>
                 </div>
@@ -87,10 +87,10 @@ const Navbar = () => {
                 {isAdmin && (
                   <div className="relative group" data-admin-dropdown>
                     <button 
-                      className="text-sm px-3 py-2 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-lg font-bold hover:bg-indigo-100 transition-colors flex items-center gap-2"
+                      className="text-xs lg:text-sm px-2 lg:px-3 py-2 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-lg font-bold hover:bg-indigo-100 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap"
                       onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
                     >
-                      <Settings className="w-4 h-4"/> Admin
+                      <Settings className="w-4 h-4"/> <span className="hidden lg:inline">Admin</span>
                       <ChevronDown className={`w-4 h-4 transition-transform ${adminDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
                     {adminDropdownOpen && (
@@ -125,39 +125,39 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-100 mt-3 pt-3 space-y-2 pb-4 animate-in fade-in slide-in-from-top-4 duration-200">
-            <Link to="/" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-            <Link to="/products" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>Products</Link>
-            <Link to="/cart" className="flex items-center justify-between text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>
-              Cart 
-              {getCartCount() > 0 && <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-xs">{getCartCount()}</span>}
+          <div className="md:hidden border-t border-slate-100 mt-2 pt-3 space-y-1.5 pb-4 animate-in fade-in slide-in-from-top-4 duration-200">
+            <Link to="/" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-lg transition-colors text-sm" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link to="/products" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-lg transition-colors text-sm" onClick={() => setMobileMenuOpen(false)}>Products</Link>
+            <Link to="/cart" className="flex items-center justify-between text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-lg transition-colors text-sm" onClick={() => setMobileMenuOpen(false)}>
+              <span>Cart</span>
+              {getCartCount() > 0 && <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-xs font-black">{getCartCount()}</span>}
             </Link>
             
-            <div className="border-t border-slate-100 my-2"></div>
+            <div className="border-t border-slate-100 my-1.5"></div>
             
             {isAuthenticated ? (
-              <div className="space-y-1">
-                <div className="px-3 py-2 bg-slate-50 rounded-lg mb-2">
-                   <p className="text-slate-800 font-black text-sm">{user?.name || user?.email}</p>
+              <div className="space-y-1.5">
+                <div className="px-3 py-2.5 bg-slate-50 rounded-lg mb-2">
+                   <p className="text-slate-800 font-black text-xs">{user?.name || user?.email}</p>
                    {isAdmin && <p className="text-primary-600 font-black text-xs uppercase mt-0.5">Administrator</p>}
                 </div>
-                <Link to="/orders" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-xl transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                  <Package className="w-5 h-5"/> My Orders
+                <Link to="/orders" className="block text-slate-700 font-bold hover:text-primary-600 hover:bg-primary-50 p-3 rounded-lg transition-colors flex items-center gap-2 text-sm" onClick={() => setMobileMenuOpen(false)}>
+                  <Package className="w-4 h-4"/> My Orders
                 </Link>
                 {isAdmin && (
-                  <div className="mt-2 space-y-1 p-3 bg-indigo-50 border border-indigo-100 rounded-xl">
-                    <p className="text-xs font-black text-indigo-700 uppercase tracking-widest pl-1 mb-2">Admin Tools</p>
-                    <Link to="/admin/products" className="block text-slate-700 font-bold hover:text-indigo-700 hover:bg-indigo-100/50 p-2 rounded-lg text-sm transition-colors" onClick={() => setMobileMenuOpen(false)}>Inventory</Link>
-                    <Link to="/admin/orders" className="block text-slate-700 font-bold hover:text-indigo-700 hover:bg-indigo-100/50 p-2 rounded-lg text-sm transition-colors" onClick={() => setMobileMenuOpen(false)}>Sales</Link>
+                  <div className="mt-2 space-y-1 p-3 bg-indigo-50 border border-indigo-100 rounded-lg">
+                    <p className="text-xs font-black text-indigo-700 uppercase tracking-widest pl-1 mb-1.5">Admin Tools</p>
+                    <Link to="/admin/products" className="block text-slate-700 font-bold hover:text-indigo-700 hover:bg-indigo-100/50 p-2 rounded-lg text-xs transition-colors" onClick={() => setMobileMenuOpen(false)}>Inventory</Link>
+                    <Link to="/admin/orders" className="block text-slate-700 font-bold hover:text-indigo-700 hover:bg-indigo-100/50 p-2 rounded-lg text-xs transition-colors" onClick={() => setMobileMenuOpen(false)}>Sales</Link>
                   </div>
                 )}
-                <button onClick={handleLogout} className="w-full mt-4 text-center text-red-600 bg-red-50 hover:bg-red-100 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
-                  <LogOut className="w-5 h-5"/> Sign Out
+                <button onClick={handleLogout} className="w-full mt-3 text-center text-red-600 bg-red-50 hover:bg-red-100 font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                  <LogOut className="w-4 h-4"/> Sign Out
                 </button>
               </div>
             ) : (
               <div className="pt-2">
-                <Link to="/register" className="block text-center py-3 bg-primary-600 border border-transparent text-white rounded-xl font-bold hover:bg-primary-500 transition-colors" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
+                <Link to="/register" className="block text-center py-3 bg-primary-600 border border-transparent text-white rounded-lg font-bold hover:bg-primary-500 transition-colors text-sm" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
               </div>
             )}
           </div>

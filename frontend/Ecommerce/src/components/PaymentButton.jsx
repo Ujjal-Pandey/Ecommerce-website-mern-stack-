@@ -33,6 +33,7 @@ const PaymentButton = ({ orderId, customerName, customerEmail, customerPhone, am
         
         // Redirect to Khalti payment page
         window.location.href = response.payment_url;
+        console.log("Redirecting to payment URL:", response.payment_url);
       } else {
         setError("Failed to initiate payment. Please try again.");
       }

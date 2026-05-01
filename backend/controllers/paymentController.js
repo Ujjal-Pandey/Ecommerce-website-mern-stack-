@@ -3,8 +3,8 @@ import { khaltiPayment, khaltiLookup } from "../utils/khaltiAPI.js";
 export const initiatePayment = async (req, res) => {
   try {
     const payload = {
-      return_url: process.env.PAYMENT_RETURN_URL || "http://localhost:5173/payment-success",
-      website_url: process.env.WEBSITE_URL || "http://localhost:5173",
+      return_url: process.env.PAYMENT_RETURN_URL ,
+      website_url: process.env.WEBSITE_URL ,
       amount: req.body.amount * 100,
       purchase_order_id: req.body.orderId,
       purchase_order_name: req.body.productName || "Order",

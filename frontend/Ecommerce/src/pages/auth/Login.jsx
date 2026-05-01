@@ -83,7 +83,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center py-8 md:py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10 z-0">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-amber-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
@@ -91,45 +91,45 @@ const Login = () => {
       </div>
       
       <div className="max-w-md w-full relative z-10">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-amber-100">
+        <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-amber-100">
           {/* Header */}
-          <div className="px-8 pt-10 pb-6 text-center bg-gradient-to-b from-amber-50 to-white">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
-              <UserCheck className="w-8 h-8 text-amber-600"/>
+          <div className="px-4 md:px-8 pt-8 md:pt-10 pb-4 md:pb-6 text-center bg-gradient-to-b from-amber-50 to-white">
+            <div className="w-12 md:w-16 h-12 md:h-16 bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-amber-200 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-md">
+              <UserCheck className="w-6 md:w-8 h-6 md:h-8 text-amber-600"/>
             </div>
-            <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Welcome Back</h2>
-            <p className="text-gray-600 font-medium">Sign in to your Stride account</p>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-1 md:mb-2">Welcome Back</h2>
+            <p className="text-sm md:text-base text-gray-600 font-medium">Sign in to your account</p>
           </div>
           
-          <div className="px-8 pb-8">
+          <div className="px-4 md:px-8 pb-6 md:pb-8">
             {/* Success Message */}
             {successMessage && (
-              <div className="bg-emerald-50 border-2 border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 font-medium text-sm flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              <div className="bg-emerald-50 border-2 border-emerald-200 text-emerald-700 px-3 md:px-4 py-2 md:py-3 rounded-lg md:rounded-xl mb-4 md:mb-6 font-medium text-xs md:text-sm flex items-center gap-2">
+                <CheckCircle className="w-4 md:w-5 h-4 md:h-5 flex-shrink-0" />
                 {successMessage}
               </div>
             )}
 
             {/* Error Messages */}
             {errors.general && (
-              <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 font-medium text-sm flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <div className="bg-red-50 border-2 border-red-200 text-red-700 px-3 md:px-4 py-2 md:py-3 rounded-lg md:rounded-xl mb-4 md:mb-6 font-medium text-xs md:text-sm flex items-center gap-2">
+                <AlertCircle className="w-4 md:w-5 h-4 md:h-5 flex-shrink-0" />
                 {errors.general}
               </div>
             )}
             
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4" noValidate>
               {/* Email Field */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2 ml-1">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute inset-y-0 left-0 w-5 h-5 text-gray-400 pointer-events-none ml-3 my-auto" />
+                  <Mail className="absolute inset-y-0 left-0 w-4 md:w-5 h-4 md:h-5 text-gray-400 pointer-events-none ml-3 my-auto" />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`w-full pl-11 pr-4 py-3 rounded-xl border-2 transition-all outline-none font-medium ${
+                    className={`w-full pl-10 md:pl-11 pr-3 md:pr-4 py-2.5 md:py-3 rounded-lg md:rounded-xl border-2 transition-all outline-none font-medium text-sm md:text-base ${
                       errors.email 
                         ? 'border-red-300 bg-red-50 focus:ring-2 focus:ring-red-400 focus:border-red-400' 
                         : 'border-gray-200 bg-gray-50 focus:bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-200'
@@ -148,17 +148,17 @@ const Login = () => {
                     to="/forgot"
                     className="text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors"
                   >
-                    Forgot Password?
+                    Forgot?
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute inset-y-0 left-0 w-5 h-5 text-gray-400 pointer-events-none ml-3 my-auto" />
+                  <Lock className="absolute inset-y-0 left-0 w-4 md:w-5 h-4 md:h-5 text-gray-400 pointer-events-none ml-3 my-auto" />
                   <input
                     type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`w-full pl-11 pr-4 py-3 rounded-xl border-2 transition-all outline-none font-medium ${
+                    className={`w-full pl-10 md:pl-11 pr-3 md:pr-4 py-2.5 md:py-3 rounded-lg md:rounded-xl border-2 transition-all outline-none font-medium text-sm md:text-base ${
                       errors.password 
                         ? 'border-red-300 bg-red-50 focus:ring-2 focus:ring-red-400 focus:border-red-400' 
                         : 'border-gray-200 bg-gray-50 focus:bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-200'
@@ -173,27 +173,27 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 mt-6 rounded-xl text-white font-bold tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600"
+                className="w-full flex justify-center items-center gap-2 py-2.5 md:py-3 px-4 mt-4 md:mt-6 rounded-lg md:rounded-xl text-white font-bold tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-sm md:text-base"
               >
                 {loading ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-4 md:h-5 w-4 md:w-5 border-2 border-white border-t-transparent"></div>
                     Logging in...
                   </>
                 ) : (
                   <>
-                    <ArrowRight className="w-5 h-5" /> Sign In
+                    <ArrowRight className="w-4 md:w-5 h-4 md:h-5" /> Sign In
                   </>
                 )}
               </button>
             </form>
 
             {/* Signup Link */}
-            <div className="mt-8 text-center">
-              <p className="text-sm font-medium text-gray-600">
+            <div className="mt-6 md:mt-8 text-center">
+              <p className="text-xs md:text-sm font-medium text-gray-600">
                 Don't have an account?{' '}
                 <Link to="/register" className="font-bold text-amber-600 hover:text-amber-700 transition-colors">
-                  Create one now
+                  Create one
                 </Link>
               </p>
             </div>

@@ -19,6 +19,7 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -56,4 +57,169 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  * {
+    /* Better touch targets on mobile - minimum 44x44px */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  button, a[role="button"], input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on long press */
+  body {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Better scrolling performance */
+  .overflow-y-auto, .overflow-y-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Larger touch targets for form inputs */
+  input, textarea, select {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    min-height: 44px;
+  }
+}
+
+/* Animation improvements */
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.4s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Utility classes for better spacing */
+.safe-area-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+.safe-area-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Better visual feedback */
+@media (hover: hover) {
+  button:hover {
+    transform: translateY(-2px);
+  }
+
+  .hover\:scale-105:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Touch-friendly spacing */
+@media (max-width: 768px) {
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+/* Performance improvements */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better form styling for mobile */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+/* Better image rendering */
+img {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Responsive container optimization */
+@media (max-width: 640px) {
+  .max-w-7xl {
+    max-width: 100%;
+  }
+}
+
+/* Enhanced button interactions */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Better scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

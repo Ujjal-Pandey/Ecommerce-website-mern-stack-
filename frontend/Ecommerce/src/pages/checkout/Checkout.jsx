@@ -138,14 +138,14 @@ const Checkout = () => {
 
   if (!cartItems || cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 pt-32 pb-20 px-4 flex items-center justify-center">
-        <div className="text-center">
-          <ShoppingCart className="w-16 h-16 text-amber-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">No items to checkout</h2>
-          <p className="text-gray-600">Add products to your cart to proceed with checkout</p>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 pt-24 md:pt-32 pb-12 md:pb-20 px-4 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <ShoppingCart className="w-12 md:w-16 h-12 md:h-16 text-amber-400 mx-auto mb-3 md:mb-4" />
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">No items to checkout</h2>
+          <p className="text-sm md:text-base text-gray-600 mb-6">Add products to your cart to proceed with checkout</p>
           <button 
             onClick={() => window.location.href = '/'}
-            className="mt-6 px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+            className="px-6 md:px-8 py-2.5 md:py-3 bg-amber-600 text-white font-bold rounded-lg md:rounded-xl hover:bg-amber-700 transition-colors text-sm md:text-base"
           >
             Continue Shopping
           </button>
@@ -155,41 +155,41 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen pt-20 md:pt-24 pb-12 md:pb-16 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-black text-gray-900 mb-12 text-center">Checkout</h1>
+        <h1 className="text-2xl md:text-4xl font-black text-gray-900 mb-8 md:mb-12 text-center">Checkout</h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           {/* Order Summary */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-lg border-2 border-amber-100 p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <ShoppingCart className="w-6 h-6 text-amber-600" /> Order Details
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white rounded-2xl md:rounded-3xl shadow-lg border-2 border-amber-100 p-4 md:p-8">
+              <h2 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
+                <ShoppingCart className="w-5 md:w-6 h-5 md:h-6 text-amber-600" /> Order Details
               </h2>
               
               {/* Stock Warning */}
               {getStockWarning()}
               
-              <div className="space-y-4 mb-8 bg-amber-50 p-4 rounded-xl border border-amber-200 max-h-96 overflow-y-auto">
+              <div className="space-y-2 md:space-y-4 mb-6 md:mb-8 bg-amber-50 p-3 md:p-4 rounded-lg md:rounded-xl border border-amber-200 max-h-72 md:max-h-96 overflow-y-auto">
                 {cartItems.map(item => (
-                  <div key={item._id} className="flex justify-between items-center py-2 border-b border-amber-200 last:border-0">
-                    <div>
+                  <div key={item._id} className="flex justify-between items-start md:items-center py-2 border-b border-amber-200 last:border-0 text-sm md:text-base">
+                    <div className="flex-1">
                       <p className="font-semibold text-gray-900">{item.name}</p>
-                      <p className="text-sm text-amber-700">
+                      <p className="text-xs md:text-sm text-amber-700">
                         Qty: {item.quantity}
                         {item.quantity > (item.countInStock || 0) && (
                           <span className="text-red-600 ml-2">(Insufficient stock!)</span>
                         )}
                       </p>
                     </div>
-                    <span className="font-bold text-gray-900">{formatPrice(item.price * item.quantity)}</span>
+                    <span className="font-bold text-gray-900 ml-2">{formatPrice(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
 
               {/* Order Summary Card */}
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 mb-8 border-2 border-amber-200">
-                <div className="space-y-3 mb-4 pb-4 border-b-2 border-amber-300">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-amber-200">
+                <div className="space-y-2 md:space-y-3 mb-3 md:mb-4 pb-3 md:pb-4 border-b-2 border-amber-300 text-sm md:text-base">
                   <div className="flex justify-between text-gray-700">
                     <span className="font-medium">Subtotal</span>
                     <span className="font-semibold">{formatPrice(subtotal)}</span>
@@ -206,29 +206,29 @@ const Checkout = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-gray-900">Total Amount</span>
-                  <span className="text-3xl font-black text-amber-600">{formatPrice(total)}</span>
+                  <span className="text-base md:text-lg font-bold text-gray-900">Total Amount</span>
+                  <span className="text-2xl md:text-3xl font-black text-amber-600">{formatPrice(total)}</span>
                 </div>
               </div>
             </div>
 
             {/* Shipping Information */}
-            <div className="bg-white rounded-3xl shadow-lg border-2 border-amber-100 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <MapPin className="w-6 h-6 text-amber-600" /> Shipping Information
+            <div className="bg-white rounded-2xl md:rounded-3xl shadow-lg border-2 border-amber-100 p-4 md:p-8">
+              <h2 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
+                <MapPin className="w-5 md:w-6 h-5 md:h-6 text-amber-600" /> Shipping Information
               </h2>
 
               {error && (
-                <div className="flex items-start gap-3 p-4 bg-red-50 border-2 border-red-200 rounded-lg mb-6">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <div>
+                <div className="flex items-start gap-2 md:gap-3 p-3 md:p-4 bg-red-50 border-2 border-red-200 rounded-lg mb-4 md:mb-6">
+                  <AlertCircle className="w-4 md:w-5 h-4 md:h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs md:text-sm">
                     <p className="font-semibold text-red-800">Error</p>
-                    <p className="text-red-700 text-sm">{error}</p>
+                    <p className="text-red-700">{error}</p>
                   </div>
                 </div>
               )}
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="grid md:grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
                     Full Name <span className="text-red-500">*</span>
@@ -239,7 +239,7 @@ const Checkout = () => {
                     placeholder="John Doe"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                     required
                   />
                 </div>
@@ -253,7 +253,7 @@ const Checkout = () => {
                     placeholder="john@example.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                     required
                   />
                 </div>
@@ -267,7 +267,7 @@ const Checkout = () => {
                     placeholder="+977 1234567890"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                     required
                   />
                 </div>
@@ -281,13 +281,13 @@ const Checkout = () => {
                     placeholder="Kathmandu"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                     required
                   />
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4 md:mb-6">
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
                   Street Address <span className="text-red-500">*</span>
                 </label>
@@ -297,12 +297,12 @@ const Checkout = () => {
                   placeholder="123 Main Street"
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                  className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                   required
                 />
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4 md:mb-6">
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
                   Postal Code <span className="text-gray-400">(Optional)</span>
                 </label>
@@ -312,18 +312,18 @@ const Checkout = () => {
                   placeholder="12345"
                   value={formData.postalCode}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all"
+                  className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
                 />
               </div>
 
               <button
                 onClick={handleCreateOrder}
                 disabled={isCreatingOrder}
-                className="w-full mt-8 px-6 py-4 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white font-bold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="w-full mt-6 md:mt-8 px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white font-bold rounded-lg md:rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm md:text-base"
               >
                 {isCreatingOrder ? (
                   <>
-                    <Loader className="w-5 h-5 animate-spin" />
+                    <Loader className="w-4 md:w-5 h-4 md:h-5 animate-spin" />
                     Creating Order...
                   </>
                 ) : (
@@ -335,12 +335,12 @@ const Checkout = () => {
 
           {/* Payment Section */}
           <div>
-            <div className="bg-white rounded-3xl shadow-lg border-2 border-amber-100 p-8 sticky top-24">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment</h2>
+            <div className="bg-white rounded-2xl md:rounded-3xl shadow-lg border-2 border-amber-100 p-4 md:p-8 sticky top-20 md:top-24">
+              <h2 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Payment</h2>
 
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-xl mb-6 border-2 border-amber-200">
-                <p className="text-sm text-gray-600 mb-2 font-medium">Amount to Pay</p>
-                <p className="text-3xl font-black text-amber-600">{formatPrice(total)}</p>
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-3 md:p-4 rounded-lg md:rounded-xl mb-4 md:mb-6 border-2 border-amber-200">
+                <p className="text-xs md:text-sm text-gray-600 mb-1 md:mb-2 font-medium">Amount to Pay</p>
+                <p className="text-2xl md:text-3xl font-black text-amber-600">{formatPrice(total)}</p>
               </div>
 
               {orderId ? (
