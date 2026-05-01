@@ -35,9 +35,7 @@ app.use("/api/payment", paymentRoutes);
 // PORT
 const PORT = process.env.PORT || 5000;
 
-// Server
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
-export default app;
+//Server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
