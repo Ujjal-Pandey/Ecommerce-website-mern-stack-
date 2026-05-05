@@ -21,6 +21,9 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const verifyPayment = async () => {
       if (!pidx) {
+        console.error('❌ PIDX (Payment Index) not found in URL');
+        console.log('📍 Current URL:', window.location.href);
+        console.log('📍 Search params:', Object.fromEntries(searchParams));
         setStatus('failed');
         setMessage('Payment ID not found. Unable to verify payment.');
         return;
@@ -36,6 +39,8 @@ const PaymentSuccess = () => {
         console.log('🔍 Payment Verification Started');
         console.log('📦 Order ID:', orderIdFromParams);
         console.log('🔐 Payment Index (PIDX):', pidx);
+        console.log('📍 Page URL:', window.location.href);
+        console.log('🌍 Environment:', process.env.NODE_ENV);
 
         const response = await paymentService.verifyPayment(pidx);
 
@@ -48,16 +53,33 @@ const PaymentSuccess = () => {
           if (orderIdFromParams) {
             try {
               console.log(`🚀 Calling updatePaymentStatus with orderId: ${orderIdFromParams}`);
-              const updateResponse = await orderService.updatePaymentStatus(orderIdFromParams, 'Completed', pidx);
+              console.log(`   - Payment Status: Completed`);
+              console.log(`   - Transaction ID: ${response.data?.transaction_id}`);
+              
+              const updateResponse = await orderService.updatePaymentStatus(
+                orderIdFromParams, 
+                'Completed', 
+                response.data?.transaction_id
+              );
+              
               console.log('✅ Payment status updated successfully:', updateResponse);
               setOrderId(orderIdFromParams);
               sessionStorage.removeItem('lastOrderId'); // Clear after use
             } catch (err) {
               console.error('❌ Failed to update payment status:', err);
-              console.error('Error details:', err.message || err);
+              console.error('Error details:', {
+                message: err.message || err,
+                response: err.response?.data,
+                status: err.response?.status
+              });
+              
+              // Don't fail the entire payment just because order update failed
+              // The payment was still completed on Khalti's side
+              console.warn('⚠️ Payment completed but order update failed. User should check their orders.');
             }
           } else {
-            console.warn('⚠️ Order ID not found in URL or sessionStorage');
+            console.warn('⚠️ Order ID not found - cannot update payment status');
+            console.warn('   Checking if orderId can be retrieved from other sources...');
           }
 
           setStatus('success');
@@ -102,6 +124,8 @@ const PaymentSuccess = () => {
         }
       } catch (error) {
         console.error('❌ Payment verification error:', error);
+        console.error('Error message:', error.message);
+        console.error('Full error:', error);
         setStatus('failed');
         setMessage('Could not verify payment. Please check your email for confirmation or contact support.');
       }

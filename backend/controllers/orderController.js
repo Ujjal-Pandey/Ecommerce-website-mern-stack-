@@ -230,35 +230,38 @@ export const updateOrderStatus = async (req, res) => {
 
 // Update payment status after payment verification
 export const updatePaymentStatus = async (req, res) => {
-  const { orderId, paymentStatus, paymentId } = req.body;
-
-  if (!orderId) {
-    console.warn("⚠️ updatePaymentStatus: Order ID is required");
-    return res.status(400).json({ 
-      success: false, 
-      message: "Order ID is required" 
-    });
-  }
-
-  if (!paymentStatus) {
-    return res.status(400).json({ 
-      success: false, 
-      message: "Payment status is required" 
-    });
-  }
-
-  if (!validPaymentStatuses.includes(paymentStatus)) {
-    return res.status(400).json({ 
-      success: false, 
-      message: `Invalid payment status. Valid statuses are: ${validPaymentStatuses.join(", ")}` 
-    });
-  }
-
   try {
-    console.log(`💰 Updating Payment Status for Order: ${orderId}`);
+    // Get orderId from URL parameter (:id)
+    const orderId = req.params.id;
+    const { paymentStatus, paymentId } = req.body;
+
+    console.log(`\n💰 Updating Payment Status for Order`);
+    console.log(`   - Order ID: ${orderId}`);
     console.log(`   - Payment Status: ${paymentStatus}`);
     console.log(`   - Payment ID: ${paymentId}`);
-    
+
+    if (!orderId) {
+      console.warn("⚠️ updatePaymentStatus: Order ID is required");
+      return res.status(400).json({ 
+        success: false, 
+        message: "Order ID is required" 
+      });
+    }
+
+    if (!paymentStatus) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Payment status is required" 
+      });
+    }
+
+    if (!validPaymentStatuses.includes(paymentStatus)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Invalid payment status. Valid statuses are: ${validPaymentStatuses.join(", ")}` 
+      });
+    }
+
     const order = await Order.findById(orderId).populate("user").populate("items.product");
 
     if (!order) {
@@ -285,27 +288,25 @@ export const updatePaymentStatus = async (req, res) => {
     console.log(`✅ Order Updated Successfully`);
     console.log(`   - Order ID: ${updated._id}`);
     console.log(`   - Payment Status: ${updated.paymentStatus}`);
-    console.log(`   - Order Status: ${updated.status}`);
+    console.log(`   - Order Status: ${updated.status}\n`);
     
     res.json({
       success: true,
-      message: `Order payment updated to ${paymentStatus} and order status to ${order.status}`,
+      message: `Payment updated to ${paymentStatus}. Order status: ${updated.status}`,
       order: updated,
     });
   } catch (err) {
     if (err.kind === 'ObjectId') {
+      console.error("❌ Invalid order ID format");
       return res.status(400).json({ 
         success: false, 
-        message: "Invalid order ID" 
+        message: "Invalid order ID format" 
       });
     }
-    console.error(`❌ Error updating payment status for Order ${orderId}:`, err);
-    console.error(`   - Error Message: ${err.message}`);
-    console.error(`   - Error Stack: ${err.stack}`);
+    console.error("❌ Update Payment Status Error:", err.message);
     res.status(500).json({ 
       success: false, 
-      message: "Failed to update payment status",
-      error: err.message 
+      message: err.message || "Failed to update payment status" 
     });
   }
 };

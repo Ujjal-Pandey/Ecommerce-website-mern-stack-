@@ -2,9 +2,26 @@ import { khaltiPayment, khaltiLookup } from "../utils/khaltiAPI.js";
 
 export const initiatePayment = async (req, res) => {
   try {
+    // Validate environment variables
+    if (!process.env.PAYMENT_RETURN_URL) {
+      console.error("❌ PAYMENT_RETURN_URL is not set in environment variables");
+      return res.status(500).json({
+        success: false,
+        message: "Payment configuration error. Please contact support.",
+      });
+    }
+
+    if (!process.env.WEBSITE_URL) {
+      console.error("❌ WEBSITE_URL is not set in environment variables");
+      return res.status(500).json({
+        success: false,
+        message: "Payment configuration error. Please contact support.",
+      });
+    }
+
     const payload = {
-      return_url: process.env.PAYMENT_RETURN_URL ,
-      website_url: process.env.WEBSITE_URL ,
+      return_url: process.env.PAYMENT_RETURN_URL,
+      website_url: process.env.WEBSITE_URL,
       amount: req.body.amount * 100,
       purchase_order_id: req.body.orderId,
       purchase_order_name: req.body.productName || "Order",
@@ -18,6 +35,7 @@ export const initiatePayment = async (req, res) => {
     console.log(`💳 Initiating Payment for Order: ${payload.purchase_order_id}`);
     console.log(`   - Amount: Rs. ${req.body.amount}`);
     console.log(`   - Customer: ${payload.customer_info.name}`);
+    console.log(`   - Return URL: ${payload.return_url}`);
     
     const result = await khaltiPayment(payload);
 

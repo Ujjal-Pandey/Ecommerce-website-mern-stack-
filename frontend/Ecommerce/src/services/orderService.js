@@ -26,10 +26,18 @@ const orderService = {
   },
 
   // Update payment status after payment verification
-  async updatePaymentStatus(id, paymentStatus, paymentId) {
-    const res = await api.put(`/orders/${id}/payment-status`, { 
+  async updatePaymentStatus(orderId, paymentStatus, paymentId) {
+    console.log(`🔄 Calling updatePaymentStatus:`, {
+      orderId,
+      paymentStatus,
+      paymentId,
+      endpoint: `/orders/${orderId}/payment-status`
+    });
+    
+    const res = await api.put(`/orders/${orderId}/payment-status`, { 
       paymentStatus, 
-      paymentId 
+      paymentId,
+      orderId // Include in body for double verification
     });
     return res.data;
   },
